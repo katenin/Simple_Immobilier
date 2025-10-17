@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Terrains en vente | Simple Immobilier</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; }
+        h1 { color: #006400; margin-bottom: 20px; }
+        form {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 25px;
+        }
+        input, button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #006400;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { background: #008000; }
+        .terrain {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+        }
+        img { border-radius: 5px; }
+        .infos { flex: 1; }
+    </style>
+</head>
+<body>
+    <h1>Terrains disponibles</h1>
+
+    <!-- Barre de recherche -->
+    <form method="get">
+        <div>
+            <label>Localisation :</label><br>
+            <input type="text" name="localisation" value="{{ valeurs.localisation }}" placeholder="Ex: Bingerville">
+        </div>
+        <div>
+            <label>Superficie minimale (m²) :</label><br>
+            <input type="number" name="superficie_min" value="{{ valeurs.superficie_min }}" min="0">
+        </div>
+        <div>
+            <label>Prix maximum (FCFA) :</label><br>
+            <input type="number" name="prix_max" value="{{ valeurs.prix_max }}" min="0">
+        </div>
+        <div>
+            <button type="submit">Rechercher</button>
+        </div>
+    </form>
+
+    {% if page_obj %}
+    {% for terrain in page_obj %}
+        <div class="terrain">
+            <img src="{{ terrain.image.url }}" alt="{{ terrain.titre }}" width="250">
+            <div class="infos">
+                <h2>{{ terrain.titre }}</h2>
+                <p><strong>Localisation :</strong> {{ terrain.localisation }}</p>
+                <p><strong>Superficie :</strong> {{ terrain.superficie }} m²</p>
+                <p><strong>Prix :</strong> {{ terrain.prix }} FCFA</p>
+                <p>{{ terrain.description|truncatewords:25 }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <div style="margin-top: 20px;">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&localisation={{ valeurs.localisation }}&prix_max={{ valeurs.prix_max }}&superficie_min={{ valeurs.superficie_min }}">← Précédent</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&localisation={{ valeurs.localisation }}&prix_max={{ valeurs.prix_max }}&superficie_min={{ valeurs.superficie_min }}">Suivant →</a>
+        {% endif %}
+    </div>
+{% else %}
+    <p>Aucun terrain ne correspond à vos critères.</p>
+{% endif %}
+</body>
+</html>

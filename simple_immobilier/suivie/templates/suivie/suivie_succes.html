@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande envoyée avec succès</title>
+    <style>
+        body {
+            background-color: #ecf0f1;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .message {
+            background: #fff;
+            display: inline-block;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #27ae60;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h2>Merci {{ nom }} !</h2>
+        <p>Votre demande de suivi a été enregistrée avec succès.</p>
+        <p>Un e-mail de confirmation vient de vous être envoyé.</p>
+        <a href="{% url 'demande_suivie' %}">Faire une autre demande</a>
+        <a href="{% url 'accueil' %}">aller à la page d'accueil</a>
+    </div>
+</body>
+</html>
